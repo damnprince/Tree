@@ -29,7 +29,7 @@ BSTNode* Search1(BSTree root, int x) {
 BSTNode* Search2(BSTree root, int x) {
 	if (root == NULL || root->data == x)
 		return root;
-	if (x < root->data)  
+	if (x < root->data)
 		return Search2(root->L, x);
 	else 
 		return Search2(root->R, x);
