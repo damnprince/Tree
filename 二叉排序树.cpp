@@ -67,20 +67,31 @@ BSTree Insert2(BSTree root, int x) {
 	return root;
 }
 
+//中序遍历
+void InOrder(BSTree root) {
+	if (root == NULL)
+		return;
+	InOrder(root->L);
+	cout << root->data << " ";
+	InOrder(root->R);
+}
+
+
 int main() {
 	int n, x;
 	cin >> n;
 	BSTree root = NULL;
 	for (int i = 1; i <= n; i++) {
 		cin >> x;
-		root=Insert1(root, x);
+		root=Insert2(root, x);
 	}
 	int tar;
 	cin >> tar;
 	BSTNode* T = Search2(root, tar);
 	if (T != NULL)cout << "Yes!" << T->data << endl;
 	else cout << "No!" << endl;
-
+	cout << "中序遍历结果：" << endl;
+	InOrder(root);
 	return 0;
 }
 /*
