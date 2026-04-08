@@ -30,9 +30,9 @@ BSTNode* Search2(BSTree root, int x) {
 	if (root == NULL || root->data == x)
 		return root;
 	if (x < root->data)
-		return Search2(root->L, x);
+		Search2(root->L, x);
 	else 
-		return Search2(root->R, x);
+		Search2(root->R, x);
 }
 
 //≤Â»Î£®∑«µ›πÈ£©
