@@ -64,7 +64,7 @@ AVLTree LRratation(AVLTree x) {
 	return x;
 }
 
-//≤Â»Î
+//≤Â»Î(µ›πÈ)
 AVLTree Insert(AVLTree root, int x) {
 	if (root == NULL) {
 		root = CreateNode(x);
@@ -102,6 +102,80 @@ AVLTree Insert(AVLTree root, int x) {
 	return root;
 }
 
+//…æ≥˝£®µ›πÈ£©
+AVLTree Delet(AVLTree root, int x) {
+	if (root == NULL) {
+		cout << " ˜ø’" << endl;
+		return NULL;
+	}
+	if (x < root->data) {
+		root->L = Delet(root->L, x);
+		//≈–∂œ ß∫‚
+		if (Geth(root->R) - Geth(root->L) > 1) {
+			//RR  RL
+			AVLNode* r = root->R;
+			if (Geth(r->R) >= Geth(r->L)) {
+				//RR ß∫‚
+				root = RRratation(root);
+			}
+			else {
+				//RL ß∫‚
+				root = RLratation(root);
+			}
+		}
+	}
+	else if (x > root->data) {
+		root->R = Delet(root->R, x);
+		//≈–∂œ ß∫‚
+		if (Geth(root->L) - Geth(root->R) > 1) {
+			//LL LR
+			AVLNode* l = root->L;
+			if (Geth(l->L) >= Geth(l->R)) {
+				//LL
+				root = LLratation(root);
+			}
+			else {
+				//LR
+				root = LRratation(root);
+			}
+		}
+	}
+	else {
+		if(root->L!=NULL&&root->R!=NULL){	//…æ≥˝Ω⁄µ„∂»Œ™2
+			AVLNode* q = root->R;			//’“∫ÛºÃ
+			while (q->L != NULL) {
+				q = q->L;
+			}
+			root->data = q->data;
+			root->R = Delet(root->R, q->data);
+			//≈–∂œ ß∫‚
+			if (Geth(root->L) - Geth(root->R) > 1) {
+				//LL LR
+				AVLNode* l = root->L;
+				if (Geth(l->L) >= Geth(l->R)) {
+					//LL
+					root = LLratation(root);
+				}
+				else {
+					//LR
+					root = LRratation(root);
+				}
+			}
+		}
+		else
+		{
+			//…æ≥˝Ω⁄µ„∂»Œ™1ªÚ0
+			AVLNode* p = root;
+			if (root->L != NULL)root = root->L;
+			else root = root->R;
+			free(p);
+			p = NULL;
+		}
+	}
+	if(root!=NULL) root->h = 1 + maxx(Geth(root->L), Geth(root->R));
+	return root;
+}
+
 //÷––Ú±È¿˙
 void Inorder(AVLTree root) {
 	if (root == NULL) {
@@ -123,6 +197,12 @@ int main() {
 		root = Insert(root, x);
 	}
 	Inorder(root);
-
+	cout << endl;
+	while (root != NULL) {
+		cin >> x;
+		root = Delet(root, x);
+		Inorder(root);
+		cout << endl;
+	}
 	return 0;
 }
